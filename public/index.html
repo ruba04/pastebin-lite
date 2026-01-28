@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pastebin</title>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">PASTEBIN</h1>
+    <form id="pasteForm" class="space-y-4">
+      <textarea name="content" required rows="6" class="w-full border border-gray-300 p-3 rounded" placeholder="Enter your text..."></textarea>
+      <input type="number" name="ttl_seconds" class="w-full border border-gray-300 p-2 rounded" placeholder="Duration (in seconds)">
+      <input type="number" name="max_views" class="w-full border border-gray-300 p-2 rounded" placeholder="Max views">
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Create Paste</button>
+    </form>
+    <div id="result" class="text-center mt-6"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('pasteForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.ttl_seconds = data.ttl_seconds ? parseInt(data.ttl_seconds) : undefined;
+      data.max_views = data.max_views ? parseInt(data.max_views) : undefined;
+
+      
+      const res = await fetch('/api/pastes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const json = await res.json();
+
+      if (res.ok) {
+        navigator.clipboard.writeText(json.url);
+        result.innerHTML = `
+          <p class="text-green-700 font-semibold"> Paste created successfully!</p>
+          <a href="${json.url}" target="_blank" class="block mt-2 text-blue-600 underline hover:text-blue-800">${json.url}</a>
+        `;
+      } else {
+        result.innerHTML = `<p class="text-red-600"> Error: ${json.error || 'Unknown error occurred'}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
