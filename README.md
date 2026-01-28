@@ -33,12 +33,14 @@ Deployment: Render
 ⚙️ How to Run Locally
 1. Clone the repository
 git clone https://github.com/ruba04/pastebin-lite.git
+
 cd pastebin-lite
 
-2. Install dependencies
+3. Install dependencies
+4. 
 npm install
 
-3. Set up environment variables
+5. Set up environment variables
 
 
 Create a .env file in the root directory:
@@ -46,15 +48,18 @@ Create a .env file in the root directory:
 PORT=5000
 MONGODB_URI=mongodb+srv://<username>:<password>@clusterpastebin.llungin.mongodb.net/?retryWrites=true&w=majority
 BASE_URL=http://localhost:5000
+
 🔒 Don’t push .env to GitHub. It is already included in .gitignore.
 
 4. Run the server
+5. 
 npm start
 
 
 Then open: http://localhost:5000
 
 🌐 Deployment on Render
+
 ✅ Steps:
 
 Push your project to GitHub
@@ -80,16 +85,4 @@ node server.js
 
 Deploy your app and test the endpoint
 
-📂 Folder Structure
-.
-├── public/
-│   ├── index.html        # Paste submission UI
-│   └── view.html         # Paste viewing UI
-├── routes/
-│   └── pastes.js         # API routes
-├── models/
-│   └── Paste.js          # Mongoose schema
-├── .env                  # Environment config (ignored in Git)
-├── server.js             # Main entry point
-├── package.json
-└── README.md
+
